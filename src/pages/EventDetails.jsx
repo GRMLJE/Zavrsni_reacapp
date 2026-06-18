@@ -133,6 +133,25 @@ export default function EventDetails() {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
   }
 
+  function getCalendarUrl() {
+    const d = new Date(event.event_date)
+    const pad = n => String(n).padStart(2, '0')
+    const dateStr = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`
+    const start = `${dateStr}`
+    const nextDay = new Date(d)
+    nextDay.setDate(nextDay.getDate() + 1)
+    const end = `${nextDay.getFullYear()}${pad(nextDay.getMonth() + 1)}${pad(nextDay.getDate())}`
+    const loc = [event.address, event.neighborhood, event.city].filter(Boolean).join(', ')
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: event.title,
+      dates: `${start}/${end}`,
+      details: event.description || '',
+      location: loc,
+    })
+    return `https://calendar.google.com/calendar/render?${params}`
+  }
+
   function descParagraphs() {
     if (!event.description) return null
     return event.description.split('\n').map(p => p.trim()).filter(Boolean).map((p, i) => <p key={i}>{p}</p>)
@@ -292,6 +311,21 @@ export default function EventDetails() {
                 </button>
               </div>
             </div>
+
+            <a
+              href={getCalendarUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-calendar"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Dodaj u Google kalendar
+            </a>
           </aside>
         </div>
 

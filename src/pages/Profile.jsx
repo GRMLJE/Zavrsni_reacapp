@@ -16,7 +16,7 @@ export default function Profile() {
   const { user, logout, authHeaders } = useAuth()
   const showToast = useToast()
   const navigate = useNavigate()
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme, fontSize, increaseFontSize, decreaseFontSize } = useTheme()
 
   const [createdEvents, setCreatedEvents] = useState([])
   const [joinedEvents, setJoinedEvents] = useState([])
@@ -161,6 +161,40 @@ export default function Profile() {
               >
                 <span className="theme-toggle-knob"></span>
               </button>
+            </div>
+
+            <div className="setting-divider"></div>
+
+            <div className="setting-row">
+              <div className="setting-info">
+                <span className="setting-label">🔡 Veličina fonta</span>
+                <span className="setting-desc">
+                  {fontSize === 'small' ? 'Mali font' : fontSize === 'large' ? 'Veliki font' : 'Srednji font'}
+                </span>
+              </div>
+              <div className="font-size-controls">
+                <button
+                  className="font-size-btn"
+                  onClick={decreaseFontSize}
+                  disabled={fontSize === 'small'}
+                  aria-label="Smanji font"
+                  title="Smanji font"
+                >
+                  A−
+                </button>
+                <span className="font-size-indicator">
+                  {fontSize === 'small' ? '●○○' : fontSize === 'medium' ? '○●○' : '○○●'}
+                </span>
+                <button
+                  className="font-size-btn"
+                  onClick={increaseFontSize}
+                  disabled={fontSize === 'large'}
+                  aria-label="Povećaj font"
+                  title="Povećaj font"
+                >
+                  A+
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -359,9 +359,9 @@ export default function AddEvent() {
                 )}
               </div>
 
-              <button type="submit" className="btn-submit" disabled={loading}>
+                      <button type="submit" className="btn-submit" disabled={loading}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                <span>{loading ? 'Objavljivanje...' : 'Objavi događaj'}</span>
+                <span>{loading ? 'Slanje...' : 'Pošalji na odobrenje'}</span>
               </button>
             </form>
           </main>
@@ -401,11 +401,11 @@ export default function AddEvent() {
       {success && (
         <div className="success-overlay">
           <div className="success-card">
-            <div className="success-icon">🎉</div>
-            <h2 className="success-title">Događaj objavljen!</h2>
-            <p className="success-copy">"{success.title}" je uspješno objavljen!</p>
+            <div className="success-icon">⏳</div>
+            <h2 className="success-title">Zahtjev poslan!</h2>
+            <p className="success-copy">"{success.title}" je poslan na odobrenje adminu. Bit će objavljen nakon provjere.</p>
             <div className="success-actions">
-              <Link to={`/events/${success.id}`} className="btn-primary-link">Pogledaj detalje</Link>
+              <Link to="/events" className="btn-primary-link">Pregledaj događaje</Link>
               <button className="btn-secondary-link" onClick={resetForm}>Dodaj još jedan</button>
             </div>
           </div>

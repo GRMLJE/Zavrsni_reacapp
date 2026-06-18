@@ -148,6 +148,7 @@ export default function Register() {
                 <span className="btn-text">Kreiraj račun</span>
                 {loading && <div className="spinner-inline"></div>}
               </button>
+
             </form>
           </div>
         </div>
