@@ -46,7 +46,7 @@ export default function Login() {
       }
       login(data.user, data.token)
       showToast(`Dobrodošao, ${data.user.first_name}!`, 'success')
-      setTimeout(() => navigate('/dashboard'), 1200)
+      setTimeout(() => navigate('/events'), 1200)
     } catch {
       showToast('Server nije dostupan.', 'error')
     } finally {

@@ -75,6 +75,11 @@ export default function Header({ activePage }) {
             <Link to="/add-event" className={`mobile-nav-item${activePage === 'add-event' ? ' active' : ''}`} onClick={() => setDrawerOpen(false)}>
               Organiziraj
             </Link>
+            {user?.role === 'admin' && (
+              <Link to="/admin" className={`mobile-nav-item${activePage === 'admin' ? ' active' : ''}`} onClick={() => setDrawerOpen(false)}>
+                Admin
+              </Link>
+            )}
             <div className="mobile-drawer-actions">
               {user ? (
                 <>
