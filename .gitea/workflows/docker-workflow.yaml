@@ -12,22 +12,20 @@ jobs:
       IMAGE: ${{ vars.GIT_REGISTRY_USER }}/${{ vars.IMAGE_NAME }}
     steps:
       - name: Log in to registry
-        uses: docker/login-action@v3
+        uses: https://github.com/docker/login-action@v3
         with:
           registry: ${{ vars.GIT_DOMAIN }}
           username: ${{ vars.GIT_REGISTRY_USER }}
           password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: https://github.com/actions/checkout@v4
       - name: Build image and push it to the registry
         run: |
           docker buildx create --name container --driver=docker-container
           docker buildx build --builder container --platform linux/amd64 -t ${REGISTRY_URL}/${IMAGE}:${{ gitea.ref_name }} -t ${REGISTRY_URL}/${IMAGE}:latest --push .
       - name: Restart deployment rollout in Kubernetes to apply new image version
-        uses: actions-hub/kubectl@master
+        uses: https://github.com/actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
           args: -n ${{ vars.KUBE_NAMESPACE }} rollout restart deployment ${{ vars.KUBE_DEPLOYMENT }}
-
-
