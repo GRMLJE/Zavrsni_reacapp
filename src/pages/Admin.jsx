@@ -25,6 +25,25 @@ export default function Admin() {
     fetchEvents()
   }, [filter, user])
 
+  async function handleDelete(eventId) {
+    if (!window.confirm('Sigurno želiš obrisati ovaj event?')) return
+    setActionLoading(eventId + 'delete')
+    try {
+      const res = await fetch(`${API_BASE}/admin/events/${eventId}`, {
+        method: 'DELETE',
+        headers: authHeaders(),
+      })
+      const data = await res.json()
+      if (!res.ok) { showToast(data.error || 'Greška.', 'error'); return }
+      showToast(data.message, 'success')
+      setEvents(ev => ev.filter(e => e.id !== eventId))
+    } catch {
+      showToast('Server nije dostupan.', 'error')
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
   async function fetchEvents() {
     setLoading(true)
     try {
@@ -155,34 +174,48 @@ export default function Admin() {
                       )}
                     </div>
 
-                    {filter === 'pending' && (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flexShrink: 0 }}>
-                        <button
-                          onClick={() => handleAction(ev.id, 'approve')}
-                          disabled={!!actionLoading}
-                          style={{
-                            padding: '0.45rem 1.1rem', borderRadius: 8,
-                            background: 'rgba(100,220,100,0.15)', border: '1px solid #4caf50',
-                            color: '#4caf50', fontWeight: 600, cursor: 'pointer', fontSize: '0.82rem',
-                            opacity: actionLoading === ev.id + 'approve' ? 0.6 : 1,
-                          }}
-                        >
-                          {actionLoading === ev.id + 'approve' ? '...' : 'Odobri'}
-                        </button>
-                        <button
-                          onClick={() => handleAction(ev.id, 'reject')}
-                          disabled={!!actionLoading}
-                          style={{
-                            padding: '0.45rem 1.1rem', borderRadius: 8,
-                            background: 'rgba(255,80,80,0.1)', border: '1px solid #f44336',
-                            color: '#f44336', fontWeight: 600, cursor: 'pointer', fontSize: '0.82rem',
-                            opacity: actionLoading === ev.id + 'reject' ? 0.6 : 1,
-                          }}
-                        >
-                          {actionLoading === ev.id + 'reject' ? '...' : 'Odbij'}
-                        </button>
-                      </div>
-                    )}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flexShrink: 0 }}>
+                      {filter === 'pending' && (
+                        <>
+                          <button
+                            onClick={() => handleAction(ev.id, 'approve')}
+                            disabled={!!actionLoading}
+                            style={{
+                              padding: '0.45rem 1.1rem', borderRadius: 8,
+                              background: 'rgba(100,220,100,0.15)', border: '1px solid #4caf50',
+                              color: '#4caf50', fontWeight: 600, cursor: 'pointer', fontSize: '0.82rem',
+                              opacity: actionLoading === ev.id + 'approve' ? 0.6 : 1,
+                            }}
+                          >
+                            {actionLoading === ev.id + 'approve' ? '...' : 'Odobri'}
+                          </button>
+                          <button
+                            onClick={() => handleAction(ev.id, 'reject')}
+                            disabled={!!actionLoading}
+                            style={{
+                              padding: '0.45rem 1.1rem', borderRadius: 8,
+                              background: 'rgba(255,80,80,0.1)', border: '1px solid #f44336',
+                              color: '#f44336', fontWeight: 600, cursor: 'pointer', fontSize: '0.82rem',
+                              opacity: actionLoading === ev.id + 'reject' ? 0.6 : 1,
+                            }}
+                          >
+                            {actionLoading === ev.id + 'reject' ? '...' : 'Odbij'}
+                          </button>
+                        </>
+                      )}
+                      <button
+                        onClick={() => handleDelete(ev.id)}
+                        disabled={!!actionLoading}
+                        style={{
+                          padding: '0.45rem 1.1rem', borderRadius: 8,
+                          background: 'rgba(255,80,80,0.07)', border: '1px solid rgba(244,67,54,0.4)',
+                          color: '#f44336', fontWeight: 600, cursor: 'pointer', fontSize: '0.82rem',
+                          opacity: actionLoading === ev.id + 'delete' ? 0.6 : 1,
+                        }}
+                      >
+                        {actionLoading === ev.id + 'delete' ? '...' : 'Obriši'}
+                      </button>
+                    </div>
                   </div>
                 )
               })}
