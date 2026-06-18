@@ -10,7 +10,7 @@
   --font-body:"DM Sans",system-ui,sans-serif;
   --ease:0.18s ease; --radius-sm:6px; --radius-md:10px; --radius-lg:14px; --radius-xl:18px;
 }
-html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.6;overflow-x:hidden;}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:var(--font-base,16px);line-height:1.6;overflow-x:hidden;}
 
 /* BG */
 .bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(59,109,17,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(59,109,17,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
