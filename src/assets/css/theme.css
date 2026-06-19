@@ -4,6 +4,15 @@ html, body {
   overflow-x: hidden;
 }
 
+:root {
+  --font-base: 16px;
+  --font-scale: 1;
+}
+
+#root {
+  zoom: var(--font-scale);
+}
+
 /* ── DARK MODE VARIABLES ───────────────────────────────────────────────── */
 [data-theme="dark"] {
   --bg:            #0E1117;

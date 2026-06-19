@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 
 const ThemeContext = createContext(null)
 
-const FONT_SIZES = { small: '14px', medium: '16px', large: '19px' }
+const FONT_SCALES = { small: '0.88', medium: '1', large: '1.18' }
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => localStorage.getItem('kvart_theme') || 'light')
@@ -14,7 +14,7 @@ export function ThemeProvider({ children }) {
   }, [theme])
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-base', FONT_SIZES[fontSize] || '16px')
+    document.documentElement.style.setProperty('--font-scale', FONT_SCALES[fontSize] || '1')
     localStorage.setItem('kvart_fontsize', fontSize)
   }, [fontSize])
 
